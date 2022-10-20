@@ -13,7 +13,7 @@ import (
 func TestAlignment(t *testing.T) {
 	doc := gltf.NewDocument()
 	WriteIndices(doc, []uint16{0, 1, 2})
-	WritePosition(doc, [][3]float32{{0, 0, 0}, {1, 0, 0}, {0, 1, 0}})
+	WritePosition(doc, [][3]float64{{0, 0, 0}, {1, 0, 0}, {0, 1, 0}})
 	if len(doc.Buffers) != 1 {
 		t.Errorf("Testalignment() buffer size = %v, want 1", len(doc.Buffers))
 	}
@@ -29,14 +29,14 @@ func TestAlignment(t *testing.T) {
 }
 
 func TestWriteAttributesInterleaved(t *testing.T) {
-	data := [][3]float32{{1, 2, 3}, {0, 0, -1}}
+	data := [][3]float64{{1, 2, 3}, {0, 0, -1}}
 	doc := gltf.NewDocument()
 	attrs, err := WriteAttributesInterleaved(doc, Attributes{
 		Position:       data,
 		Normal:         data,
-		Tangent:        [][4]float32{{1, 2, 3, 4}, {1, 2, 3, 4}},
-		TextureCoord_0: [][2]float32{{1, 2}, {1, 2}},
-		TextureCoord_1: [][2]float32{{1, 2}, {1, 2}},
+		Tangent:        [][4]float64{{1, 2, 3, 4}, {1, 2, 3, 4}},
+		TextureCoord_0: [][2]float64{{1, 2}, {1, 2}},
+		TextureCoord_1: [][2]float64{{1, 2}, {1, 2}},
 		Joints:         [][4]uint8{{1, 2, 3, 4}, {1, 2, 3, 4}},
 		Weights:        [][4]uint8{{1, 2, 3, 4}, {1, 2, 3, 4}},
 		Color:          data,
@@ -73,7 +73,7 @@ func TestWriteAttributesInterleaved(t *testing.T) {
 		t.Errorf("TestWriteAttributesInterleaved() = %v", diff)
 	}
 	accs := []*gltf.Accessor{
-		{BufferView: gltf.Index(0), Count: 2, Type: gltf.AccessorVec3, Min: []float32{0, 0, -1}, Max: []float32{1, 2, 3}},
+		{BufferView: gltf.Index(0), Count: 2, Type: gltf.AccessorVec3, Min: []float64{0, 0, -1}, Max: []float64{1, 2, 3}},
 		{BufferView: gltf.Index(0), Count: 2, Type: gltf.AccessorVec3, ByteOffset: 12},
 		{BufferView: gltf.Index(0), Count: 2, Type: gltf.AccessorVec4, ByteOffset: 24},
 		{BufferView: gltf.Index(0), Count: 2, Type: gltf.AccessorVec2, ByteOffset: 40},
@@ -92,8 +92,8 @@ func TestWriteAttributesInterleaved(t *testing.T) {
 func TestWriteAttributesInterleaved_OnlyPosition(t *testing.T) {
 	doc := gltf.NewDocument()
 	_, err := WriteAttributesInterleaved(doc, Attributes{
-		Position:         [][3]float32{{1, 2, 3}, {0, 0, -1}},
-		Tangent:          make([][4]float32, 0),
+		Position:         [][3]float64{{1, 2, 3}, {0, 0, -1}},
+		Tangent:          make([][4]float64, 0),
 		CustomAttributes: []CustomAttribute{{Name: "COLOR_1"}},
 	})
 	if err != nil {
@@ -107,8 +107,8 @@ func TestWriteAttributesInterleaved_OnlyPosition(t *testing.T) {
 func TestWriteAttributesInterleaved_Error(t *testing.T) {
 	doc := gltf.NewDocument()
 	_, err := WriteAttributesInterleaved(doc, Attributes{
-		Position: [][3]float32{{1, 2, 3}, {0, 0, -1}},
-		Color:    [][3]float32{{1, 2, 3}},
+		Position: [][3]float64{{1, 2, 3}, {0, 0, -1}},
+		Color:    [][3]float64{{1, 2, 3}},
 	})
 	if err == nil {
 		t.Error("TestWriteAttributesInterleaved_Error() expected an error")
@@ -118,9 +118,9 @@ func TestWriteAttributesInterleaved_Error(t *testing.T) {
 func TestWriteAccessorsInterleaved(t *testing.T) {
 	doc := gltf.NewDocument()
 	indices, err := WriteAccessorsInterleaved(doc,
-		[][3]float32{{1, 2, 3}, {0, 0, -1}},
-		[][4]float32{{1, 2, 3, 4}, {1, 2, 3, 4}},
-		[][3]float32{{3, 1, 2}, {4, 0, 1}},
+		[][3]float64{{1, 2, 3}, {0, 0, -1}},
+		[][4]float64{{1, 2, 3, 4}, {1, 2, 3, 4}},
+		[][3]float64{{3, 1, 2}, {4, 0, 1}},
 	)
 	if err != nil {
 		t.Fatalf("TestWriteAccessorsInterleaved() got error = %v", err)
@@ -158,8 +158,8 @@ func TestWriteAccessorsInterleaved(t *testing.T) {
 func TestWriteAccessorsInterleaved_Error(t *testing.T) {
 	doc := gltf.NewDocument()
 	_, err := WriteAccessorsInterleaved(doc,
-		[][3]float32{{1, 2, 3}, {0, 0, -1}},
-		[][3]float32{{3, 1, 2}},
+		[][3]float64{{1, 2, 3}, {0, 0, -1}},
+		[][3]float64{{3, 1, 2}},
 	)
 	if err == nil {
 		t.Error("TestWriteAccessorsInterleaved_Error() expected an error")
@@ -169,9 +169,9 @@ func TestWriteAccessorsInterleaved_Error(t *testing.T) {
 func TestWriteBufferViewInterleaved(t *testing.T) {
 	doc := gltf.NewDocument()
 	_, err := WriteBufferViewInterleaved(doc,
-		[][3]float32{{1, 2, 3}, {0, 0, -1}},
-		[][4]float32{{1, 2, 3, 4}, {1, 2, 3, 4}},
-		[][3]float32{{3, 1, 2}, {4, 0, 1}},
+		[][3]float64{{1, 2, 3}, {0, 0, -1}},
+		[][4]float64{{1, 2, 3, 4}, {1, 2, 3, 4}},
+		[][3]float64{{3, 1, 2}, {4, 0, 1}},
 	)
 	if err != nil {
 		t.Fatalf("TestWriteBufferViewInterleaved() got error = %v", err)
@@ -197,8 +197,8 @@ func TestWriteBufferViewInterleaved(t *testing.T) {
 func TestWriteBufferViewInterleaved_Error(t *testing.T) {
 	doc := gltf.NewDocument()
 	_, err := WriteBufferViewInterleaved(doc,
-		[][3]float32{{1, 2, 3}, {0, 0, -1}},
-		[][3]float32{{3, 1, 2}},
+		[][3]float64{{1, 2, 3}, {0, 0, -1}},
+		[][3]float64{{3, 1, 2}},
 	)
 	if err == nil {
 		t.Error("TestWriteBufferViewInterleaved_Error() expected an error")
@@ -207,7 +207,7 @@ func TestWriteBufferViewInterleaved_Error(t *testing.T) {
 
 func TestWriteNormal(t *testing.T) {
 	type args struct {
-		data [][3]float32
+		data [][3]float64
 	}
 	tests := []struct {
 		name    string
@@ -219,7 +219,7 @@ func TestWriteNormal(t *testing.T) {
 		{"base", &gltf.Document{
 			Accessors: []*gltf.Accessor{{}},
 			Buffers:   []*gltf.Buffer{{ByteLength: 10}},
-		}, args{[][3]float32{{1, 2, 3}}}, 1, &gltf.Document{
+		}, args{[][3]float64{{1, 2, 3}}}, 1, &gltf.Document{
 			Accessors: []*gltf.Accessor{
 				{},
 				{BufferView: gltf.Index(0), Count: 1, Type: gltf.AccessorVec3, ComponentType: gltf.ComponentFloat},
@@ -249,7 +249,7 @@ func TestWriteNormal(t *testing.T) {
 
 func TestWriteTangent(t *testing.T) {
 	type args struct {
-		data [][4]float32
+		data [][4]float64
 	}
 	tests := []struct {
 		name    string
@@ -261,7 +261,7 @@ func TestWriteTangent(t *testing.T) {
 		{"base", &gltf.Document{
 			Accessors: []*gltf.Accessor{{}},
 			Buffers:   []*gltf.Buffer{{ByteLength: 10}},
-		}, args{[][4]float32{{1, 2, 3, 4}, {}}}, 1, &gltf.Document{
+		}, args{[][4]float64{{1, 2, 3, 4}, {}}}, 1, &gltf.Document{
 			Accessors: []*gltf.Accessor{
 				{},
 				{BufferView: gltf.Index(0), Count: 2, Type: gltf.AccessorVec4, ComponentType: gltf.ComponentFloat},
@@ -291,7 +291,7 @@ func TestWriteTangent(t *testing.T) {
 
 func TestWritePosition(t *testing.T) {
 	type args struct {
-		data [][3]float32
+		data [][3]float64
 	}
 	tests := []struct {
 		name    string
@@ -303,10 +303,10 @@ func TestWritePosition(t *testing.T) {
 		{"base", &gltf.Document{
 			Accessors: []*gltf.Accessor{{}},
 			Buffers:   []*gltf.Buffer{{ByteLength: 10}},
-		}, args{[][3]float32{{1, 2, 3}, {0, 0, -1}}}, 1, &gltf.Document{
+		}, args{[][3]float64{{1, 2, 3}, {0, 0, -1}}}, 1, &gltf.Document{
 			Accessors: []*gltf.Accessor{
 				{},
-				{BufferView: gltf.Index(0), Count: 2, Type: gltf.AccessorVec3, ComponentType: gltf.ComponentFloat, Max: []float32{1, 2, 3}, Min: []float32{0, 0, -1}},
+				{BufferView: gltf.Index(0), Count: 2, Type: gltf.AccessorVec3, ComponentType: gltf.ComponentFloat, Max: []float64{1, 2, 3}, Min: []float64{0, 0, -1}},
 			},
 			BufferViews: []*gltf.BufferView{
 				{ByteLength: 24, Target: gltf.TargetArrayBuffer},
@@ -432,7 +432,7 @@ func TestWriteWeights(t *testing.T) {
 		{"float", &gltf.Document{
 			Accessors: []*gltf.Accessor{{}},
 			Buffers:   []*gltf.Buffer{{ByteLength: 10}},
-		}, args{[][4]float32{{1, 2, 3, 4}, {}}}, 1, &gltf.Document{
+		}, args{[][4]float64{{1, 2, 3, 4}, {}}}, 1, &gltf.Document{
 			Accessors: []*gltf.Accessor{
 				{},
 				{BufferView: gltf.Index(0), Count: 2, Type: gltf.AccessorVec4, ComponentType: gltf.ComponentFloat},
@@ -504,7 +504,7 @@ func TestWriteTextureCoord(t *testing.T) {
 		{"float", &gltf.Document{
 			Accessors: []*gltf.Accessor{{}},
 			Buffers:   []*gltf.Buffer{{ByteLength: 10}},
-		}, args{[][2]float32{{1, 2}, {}}}, 1, &gltf.Document{
+		}, args{[][2]float64{{1, 2}, {}}}, 1, &gltf.Document{
 			Accessors: []*gltf.Accessor{
 				{},
 				{BufferView: gltf.Index(0), Count: 2, Type: gltf.AccessorVec2, ComponentType: gltf.ComponentFloat},
@@ -632,7 +632,7 @@ func TestWriteColor(t *testing.T) {
 		}},
 		{"float", &gltf.Document{
 			Accessors: []*gltf.Accessor{{}},
-		}, args{[][4]float32{{1, 2, 3, 4}, {}}}, 1, &gltf.Document{
+		}, args{[][4]float64{{1, 2, 3, 4}, {}}}, 1, &gltf.Document{
 			Accessors: []*gltf.Accessor{
 				{},
 				{BufferView: gltf.Index(0), Count: 2, Type: gltf.AccessorVec4, ComponentType: gltf.ComponentFloat},

@@ -2,7 +2,7 @@
 //
 // Numbers are translated by reading and writing fixed-size values.
 // A fixed-size value is either a fixed-size arithmetic
-// type (bool, int8, uint8, int16, float32, complex64, ...)
+// type (bool, int8, uint8, int16, float64, complex64, ...)
 // or an array or struct containing only fixed-size values.
 //
 // Even though the defined structs don't implement a common interface,

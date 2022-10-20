@@ -40,17 +40,17 @@ func TestDenormalize(t *testing.T) {
 func TestNormalizeRGBA(t *testing.T) {
 	deep.FloatPrecision = 6
 	type args struct {
-		v [4]float32
+		v [4]float64
 	}
 	tests := []struct {
 		name string
 		args args
 		want [4]uint8
 	}{
-		{"empty", args{[4]float32{}}, [4]uint8{}},
-		{"base", args{[4]float32{0.0003035, 0.0003035, 0.0003035, 0.00392156}}, [4]uint8{0, 0, 0, 0}},
-		{"max", args{[4]float32{1, 1, 1, 1}}, [4]uint8{255, 255, 255, 255}},
-		{"other", args{[4]float32{0.045186, 0.1878207, 0.4564110, 0.86274509}}, [4]uint8{59, 119, 179, 220}},
+		{"empty", args{[4]float64{}}, [4]uint8{}},
+		{"base", args{[4]float64{0.0003035, 0.0003035, 0.0003035, 0.00392156}}, [4]uint8{0, 0, 0, 0}},
+		{"max", args{[4]float64{1, 1, 1, 1}}, [4]uint8{255, 255, 255, 255}},
+		{"other", args{[4]float64{0.045186, 0.1878207, 0.4564110, 0.86274509}}, [4]uint8{59, 119, 179, 220}},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
@@ -65,17 +65,17 @@ func TestNormalizeRGBA(t *testing.T) {
 func TestNormalizeRGB(t *testing.T) {
 	deep.FloatPrecision = 6
 	type args struct {
-		v [3]float32
+		v [3]float64
 	}
 	tests := []struct {
 		name string
 		args args
 		want [3]uint8
 	}{
-		{"empty", args{[3]float32{}}, [3]uint8{}},
-		{"base", args{[3]float32{0.0003035, 0.0003035, 0.0003035}}, [3]uint8{0, 0, 0}},
-		{"max", args{[3]float32{1, 1, 1}}, [3]uint8{255, 255, 255}},
-		{"other", args{[3]float32{0.045186, 0.1878207, 0.4564110}}, [3]uint8{59, 119, 179}},
+		{"empty", args{[3]float64{}}, [3]uint8{}},
+		{"base", args{[3]float64{0.0003035, 0.0003035, 0.0003035}}, [3]uint8{0, 0, 0}},
+		{"max", args{[3]float64{1, 1, 1}}, [3]uint8{255, 255, 255}},
+		{"other", args{[3]float64{0.045186, 0.1878207, 0.4564110}}, [3]uint8{59, 119, 179}},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
@@ -90,17 +90,17 @@ func TestNormalizeRGB(t *testing.T) {
 func TestNormalizeRGBA64(t *testing.T) {
 	deep.FloatPrecision = 6
 	type args struct {
-		v [4]float32
+		v [4]float64
 	}
 	tests := []struct {
 		name string
 		args args
 		want [4]uint16
 	}{
-		{"empty", args{[4]float32{}}, [4]uint16{}},
-		{"base", args{[4]float32{0.001181, 0.001181, 0.001181, 0.0152590}}, [4]uint16{999, 999, 999, 999}},
-		{"max", args{[4]float32{1, 1, 1, 1}}, [4]uint16{65535, 65535, 65535, 65535}},
-		{"other", args{[4]float32{0.0087617, 0.0280836, 0.061314, 0.335698}}, [4]uint16{5999, 11999, 17999, 21999}},
+		{"empty", args{[4]float64{}}, [4]uint16{}},
+		{"base", args{[4]float64{0.001181, 0.001181, 0.001181, 0.0152590}}, [4]uint16{999, 999, 999, 999}},
+		{"max", args{[4]float64{1, 1, 1, 1}}, [4]uint16{65535, 65535, 65535, 65535}},
+		{"other", args{[4]float64{0.0087617, 0.0280836, 0.061314, 0.335698}}, [4]uint16{5999, 11999, 17999, 21999}},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
@@ -115,17 +115,17 @@ func TestNormalizeRGBA64(t *testing.T) {
 func TestNormalizeRGB64(t *testing.T) {
 	deep.FloatPrecision = 6
 	type args struct {
-		v [3]float32
+		v [3]float64
 	}
 	tests := []struct {
 		name string
 		args args
 		want [3]uint16
 	}{
-		{"empty", args{[3]float32{}}, [3]uint16{}},
-		{"base", args{[3]float32{0.001181, 0.001181, 0.001181}}, [3]uint16{999, 999, 999}},
-		{"max", args{[3]float32{1, 1, 1}}, [3]uint16{65535, 65535, 65535}},
-		{"other", args{[3]float32{0.0087617, 0.0280836, 0.061314}}, [3]uint16{5999, 11999, 17999}},
+		{"empty", args{[3]float64{}}, [3]uint16{}},
+		{"base", args{[3]float64{0.001181, 0.001181, 0.001181}}, [3]uint16{999, 999, 999}},
+		{"max", args{[3]float64{1, 1, 1}}, [3]uint16{65535, 65535, 65535}},
+		{"other", args{[3]float64{0.0087617, 0.0280836, 0.061314}}, [3]uint16{5999, 11999, 17999}},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
@@ -145,12 +145,12 @@ func TestDenormalizeRGBA(t *testing.T) {
 	tests := []struct {
 		name string
 		args args
-		want [4]float32
+		want [4]float64
 	}{
-		{"empty", args{[4]uint8{}}, [4]float32{}},
-		{"base", args{[4]uint8{1, 1, 1, 1}}, [4]float32{0.0003035, 0.0003035, 0.0003035, 0.00392156}},
-		{"max", args{[4]uint8{255, 255, 255, 255}}, [4]float32{1, 1, 1, 1}},
-		{"other", args{[4]uint8{60, 120, 180, 220}}, [4]float32{0.045186, 0.1878207, 0.4564110, 0.86274509}},
+		{"empty", args{[4]uint8{}}, [4]float64{}},
+		{"base", args{[4]uint8{1, 1, 1, 1}}, [4]float64{0.0003035, 0.0003035, 0.0003035, 0.00392156}},
+		{"max", args{[4]uint8{255, 255, 255, 255}}, [4]float64{1, 1, 1, 1}},
+		{"other", args{[4]uint8{60, 120, 180, 220}}, [4]float64{0.045186, 0.1878207, 0.4564110, 0.86274509}},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
@@ -170,12 +170,12 @@ func TestDenormalizeRGB(t *testing.T) {
 	tests := []struct {
 		name string
 		args args
-		want [3]float32
+		want [3]float64
 	}{
-		{"empty", args{[3]uint8{}}, [3]float32{}},
-		{"base", args{[3]uint8{1, 1, 1}}, [3]float32{0.0003035, 0.0003035, 0.0003035}},
-		{"max", args{[3]uint8{255, 255, 255}}, [3]float32{1, 1, 1}},
-		{"other", args{[3]uint8{60, 120, 180}}, [3]float32{0.045186, 0.1878207, 0.4564110}},
+		{"empty", args{[3]uint8{}}, [3]float64{}},
+		{"base", args{[3]uint8{1, 1, 1}}, [3]float64{0.0003035, 0.0003035, 0.0003035}},
+		{"max", args{[3]uint8{255, 255, 255}}, [3]float64{1, 1, 1}},
+		{"other", args{[3]uint8{60, 120, 180}}, [3]float64{0.045186, 0.1878207, 0.4564110}},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
@@ -195,12 +195,12 @@ func TestDenormalizeRGBA64(t *testing.T) {
 	tests := []struct {
 		name string
 		args args
-		want [4]float32
+		want [4]float64
 	}{
-		{"empty", args{[4]uint16{}}, [4]float32{}},
-		{"base", args{[4]uint16{1000, 1000, 1000, 1000}}, [4]float32{0.001181, 0.001181, 0.001181, 0.0152590}},
-		{"max", args{[4]uint16{65535, 65535, 65535, 65535}}, [4]float32{1, 1, 1, 1}},
-		{"other", args{[4]uint16{6000, 12000, 18000, 22000}}, [4]float32{0.0087617, 0.0280836, 0.061314, 0.335698}},
+		{"empty", args{[4]uint16{}}, [4]float64{}},
+		{"base", args{[4]uint16{1000, 1000, 1000, 1000}}, [4]float64{0.001181, 0.001181, 0.001181, 0.0152590}},
+		{"max", args{[4]uint16{65535, 65535, 65535, 65535}}, [4]float64{1, 1, 1, 1}},
+		{"other", args{[4]uint16{6000, 12000, 18000, 22000}}, [4]float64{0.0087617, 0.0280836, 0.061314, 0.335698}},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
@@ -220,12 +220,12 @@ func TestDenormalizeRGB64(t *testing.T) {
 	tests := []struct {
 		name string
 		args args
-		want [3]float32
+		want [3]float64
 	}{
-		{"empty", args{[3]uint16{}}, [3]float32{}},
-		{"base", args{[3]uint16{1000, 1000, 1000}}, [3]float32{0.001181, 0.001181, 0.001181}},
-		{"max", args{[3]uint16{65535, 65535, 65535}}, [3]float32{1, 1, 1}},
-		{"other", args{[3]uint16{6000, 12000, 18000}}, [3]float32{0.0087617, 0.0280836, 0.061314}},
+		{"empty", args{[3]uint16{}}, [3]float64{}},
+		{"base", args{[3]uint16{1000, 1000, 1000}}, [3]float64{0.001181, 0.001181, 0.001181}},
+		{"max", args{[3]uint16{65535, 65535, 65535}}, [3]float64{1, 1, 1}},
+		{"other", args{[3]uint16{6000, 12000, 18000}}, [3]float64{0.0087617, 0.0280836, 0.061314}},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {

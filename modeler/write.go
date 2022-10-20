@@ -31,14 +31,14 @@ func WriteIndices(doc *gltf.Document, data interface{}) uint32 {
 // WriteNormal adds a new NORMAL accessor to doc
 // and fills the last buffer with data.
 // If success it returns the index of the new accessor.
-func WriteNormal(doc *gltf.Document, data [][3]float32) uint32 {
+func WriteNormal(doc *gltf.Document, data [][3]float64) uint32 {
 	return WriteAccessor(doc, gltf.TargetArrayBuffer, data)
 }
 
 // WriteTangent adds a new TANGENT accessor to doc
 // and fills the last buffer with data.
 // If success it returns the index of the new accessor.
-func WriteTangent(doc *gltf.Document, data [][4]float32) uint32 {
+func WriteTangent(doc *gltf.Document, data [][4]float64) uint32 {
 	return WriteAccessor(doc, gltf.TargetArrayBuffer, data)
 }
 
@@ -57,7 +57,7 @@ func checkTextureCoord(data interface{}) bool {
 	switch data.(type) {
 	case [][2]uint8, [][2]uint16:
 		normalized = true
-	case [][2]float32:
+	case [][2]float64:
 	default:
 		panic(fmt.Sprintf("modeler.WriteTextureCoord: invalid type %T", data))
 	}
@@ -79,7 +79,7 @@ func checkWeights(data interface{}) bool {
 	switch data.(type) {
 	case [][4]uint8, [][4]uint16:
 		normalized = true
-	case [][4]float32:
+	case [][4]float64:
 	default:
 		panic(fmt.Sprintf("modeler.WriteWeights: invalid type %T", data))
 	}
@@ -105,21 +105,21 @@ func checkJoints(data interface{}) {
 // WritePosition adds a new POSITION accessor to doc
 // and fills the last buffer with data.
 // If success it returns the index of the new accessor.
-func WritePosition(doc *gltf.Document, data [][3]float32) uint32 {
+func WritePosition(doc *gltf.Document, data [][3]float64) uint32 {
 	index := WriteAccessor(doc, gltf.TargetArrayBuffer, data)
-	min, max := minMaxFloat32(data)
+	min, max := minMaxfloat64(data)
 	doc.Accessors[index].Min = min[:]
 	doc.Accessors[index].Max = max[:]
 	return index
 }
 
-func minMaxFloat32(data [][3]float32) ([3]float32, [3]float32) {
-	min := [3]float32{math.MaxFloat32, math.MaxFloat32, math.MaxFloat32}
-	max := [3]float32{-math.MaxFloat32, -math.MaxFloat32, -math.MaxFloat32}
+func minMaxfloat64(data [][3]float64) ([3]float64, [3]float64) {
+	min := [3]float64{math.Maxfloat64, math.Maxfloat64, math.Maxfloat64}
+	max := [3]float64{-math.Maxfloat64, -math.Maxfloat64, -math.Maxfloat64}
 	for _, v := range data {
 		for i, x := range v {
-			min[i] = float32(math.Min(float64(min[i]), float64(x)))
-			max[i] = float32(math.Max(float64(max[i]), float64(x)))
+			min[i] = float64(math.Min(float64(min[i]), float64(x)))
+			max[i] = float64(math.Max(float64(max[i]), float64(x)))
 		}
 	}
 	return min, max
@@ -140,7 +140,7 @@ func checkColor(data interface{}) bool {
 	switch data.(type) {
 	case []color.RGBA, []color.RGBA64, [][4]uint8, [][3]uint8, [][4]uint16, [][3]uint16:
 		normalized = true
-	case [][3]float32, [][4]float32:
+	case [][3]float64, [][4]float64:
 	default:
 		panic(fmt.Sprintf("modeler.WriteColor: invalid type %T", data))
 	}
@@ -226,16 +226,16 @@ type CustomAttribute struct {
 // Attributes defines all the vertex attributes that can
 // be associated to a primitive.
 type Attributes struct {
-	Position [][3]float32
-	Normal   [][3]float32
-	Tangent  [][4]float32
-	// [][2]uint8, [][2]uint16 or [][2]float32
+	Position [][3]float64
+	Normal   [][3]float64
+	Tangent  [][4]float64
+	// [][2]uint8, [][2]uint16 or [][2]float64
 	TextureCoord_0, TextureCoord_1 interface{}
-	// [][4]uint8, [][4]uint16 or [][4]float32
+	// [][4]uint8, [][4]uint16 or [][4]float64
 	Weights interface{}
 	// [][4]uint8 or [][4]uint16
 	Joints interface{}
-	//[]color.RGBA, []color.RGBA64, [][4]uint8, [][3]uint8, [][4]uint16, [][3]uint16, [][3]float32 or [][4]float32
+	//[]color.RGBA, []color.RGBA64, [][4]uint8, [][3]uint8, [][4]uint16, [][3]uint16, [][3]float64 or [][4]float64
 	Color            interface{}
 	CustomAttributes []CustomAttribute
 }
@@ -307,7 +307,7 @@ func WriteAttributesInterleaved(doc *gltf.Document, v Attributes) (map[string]ui
 		doc.Accessors[index].Normalized = prop.Normalized
 	}
 	if pos, ok := attrs[gltf.POSITION]; ok {
-		min, max := minMaxFloat32(v.Position)
+		min, max := minMaxfloat64(v.Position)
 		doc.Accessors[pos].Min = min[:]
 		doc.Accessors[pos].Max = max[:]
 	}

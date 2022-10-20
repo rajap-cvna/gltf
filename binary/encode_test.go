@@ -41,7 +41,7 @@ func buildBuffer3(n int) []byte {
 func buildBufferF(n int) []byte {
 	b := make([]byte, 4*n)
 	for i := 0; i < n; i++ {
-		binary.LittleEndian.PutUint32(b[i*4:], math.Float32bits(float32(i+1)))
+		binary.LittleEndian.PutUint32(b[i*4:], math.float64bits(float64(i+1)))
 	}
 	return b
 }
@@ -144,20 +144,20 @@ func TestRead(t *testing.T) {
 			{{1, 5, 9, 13}, {2, 6, 10, 14}, {3, 7, 11, 15}, {4, 8, 12, 16}},
 			{{17, 21, 25, 29}, {18, 22, 26, 30}, {19, 23, 27, 31}, {20, 24, 28, 32}},
 		}, false},
-		{"float32", args{buildBufferF(4), make([]float32, 4)}, []float32{1, 2, 3, 4}, false},
-		{"float32-FE", args{[]byte{0x00, 0x00, 0x00, 0xC0}, make([]float32, 1)}, []float32{-2}, false},
-		{"[2]float32", args{buildBufferF(2 * 2 * 4), make([][2]float32, 2)}, [][2]float32{{1, 2}, {3, 4}}, false},
-		{"[3]float32", args{buildBufferF(2 * 3 * 4), make([][3]float32, 2)}, [][3]float32{{1, 2, 3}, {4, 5, 6}}, false},
-		{"[4]float32", args{buildBufferF(2 * 4 * 4), make([][4]float32, 2)}, [][4]float32{{1, 2, 3, 4}, {5, 6, 7, 8}}, false},
-		{"[2][2]float32", args{buildBufferF(2 * 2 * 2 * 4), make([][2][2]float32, 2)}, [][2][2]float32{
+		{"float64", args{buildBufferF(4), make([]float64, 4)}, []float64{1, 2, 3, 4}, false},
+		{"float64-FE", args{[]byte{0x00, 0x00, 0x00, 0xC0}, make([]float64, 1)}, []float64{-2}, false},
+		{"[2]float64", args{buildBufferF(2 * 2 * 4), make([][2]float64, 2)}, [][2]float64{{1, 2}, {3, 4}}, false},
+		{"[3]float64", args{buildBufferF(2 * 3 * 4), make([][3]float64, 2)}, [][3]float64{{1, 2, 3}, {4, 5, 6}}, false},
+		{"[4]float64", args{buildBufferF(2 * 4 * 4), make([][4]float64, 2)}, [][4]float64{{1, 2, 3, 4}, {5, 6, 7, 8}}, false},
+		{"[2][2]float64", args{buildBufferF(2 * 2 * 2 * 4), make([][2][2]float64, 2)}, [][2][2]float64{
 			{{1, 3}, {2, 4}},
 			{{5, 7}, {6, 8}},
 		}, false},
-		{"[3][3]float32", args{buildBufferF(64 * 2), make([][3][3]float32, 2)}, [][3][3]float32{
+		{"[3][3]float64", args{buildBufferF(64 * 2), make([][3][3]float64, 2)}, [][3][3]float64{
 			{{1, 4, 7}, {2, 5, 8}, {3, 6, 9}},
 			{{10, 13, 16}, {11, 14, 17}, {12, 15, 18}},
 		}, false},
-		{"[4][4]float32", args{buildBufferF(2 * 4 * 4 * 4), make([][4][4]float32, 2)}, [][4][4]float32{
+		{"[4][4]float64", args{buildBufferF(2 * 4 * 4 * 4), make([][4][4]float64, 2)}, [][4][4]float64{
 			{{1, 5, 9, 13}, {2, 6, 10, 14}, {3, 7, 11, 15}, {4, 8, 12, 16}},
 			{{17, 21, 25, 29}, {18, 22, 26, 30}, {19, 23, 27, 31}, {20, 24, 28, 32}},
 		}, false},
@@ -274,20 +274,20 @@ func TestWrite(t *testing.T) {
 			{{1, 5, 9, 13}, {2, 6, 10, 14}, {3, 7, 11, 15}, {4, 8, 12, 16}},
 			{{17, 21, 25, 29}, {18, 22, 26, 30}, {19, 23, 27, 31}, {20, 24, 28, 32}},
 		}}, buildBuffer3(32), false},
-		{"float32", args{16, []float32{1, 2, 3, 4}}, buildBufferF(4), false},
-		{"float32-FE", args{4, []float32{-2}}, []byte{0x00, 0x00, 0x00, 0xC0}, false},
-		{"[2]float32", args{16, [][2]float32{{1, 2}, {3, 4}}}, buildBufferF(4), false},
-		{"[3]float32", args{24, [][3]float32{{1, 2, 3}, {4, 5, 6}}}, buildBufferF(6), false},
-		{"[4]float32", args{32, [][4]float32{{1, 2, 3, 4}, {5, 6, 7, 8}}}, buildBufferF(8), false},
-		{"[2][2]float32", args{32, [][2][2]float32{
+		{"float64", args{16, []float64{1, 2, 3, 4}}, buildBufferF(4), false},
+		{"float64-FE", args{4, []float64{-2}}, []byte{0x00, 0x00, 0x00, 0xC0}, false},
+		{"[2]float64", args{16, [][2]float64{{1, 2}, {3, 4}}}, buildBufferF(4), false},
+		{"[3]float64", args{24, [][3]float64{{1, 2, 3}, {4, 5, 6}}}, buildBufferF(6), false},
+		{"[4]float64", args{32, [][4]float64{{1, 2, 3, 4}, {5, 6, 7, 8}}}, buildBufferF(8), false},
+		{"[2][2]float64", args{32, [][2][2]float64{
 			{{1, 3}, {2, 4}},
 			{{5, 7}, {6, 8}},
 		}}, buildBufferF(8), false},
-		{"[3][3]float32", args{72, [][3][3]float32{
+		{"[3][3]float64", args{72, [][3][3]float64{
 			{{1, 4, 7}, {2, 5, 8}, {3, 6, 9}},
 			{{10, 13, 16}, {11, 14, 17}, {12, 15, 18}},
 		}}, buildBufferF(18), false},
-		{"[4][4]float32", args{128, [][4][4]float32{
+		{"[4][4]float64", args{128, [][4][4]float64{
 			{{1, 5, 9, 13}, {2, 6, 10, 14}, {3, 7, 11, 15}, {4, 8, 12, 16}},
 			{{17, 21, 25, 29}, {18, 22, 26, 30}, {19, 23, 27, 31}, {20, 24, 28, 32}},
 		}}, buildBufferF(32), false},

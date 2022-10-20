@@ -143,7 +143,7 @@ func TestReadAccessor(t *testing.T) {
 			}}}, BufferViews: []*gltf.BufferView{{Buffer: 0, ByteOffset: 4, ByteLength: 48, ByteStride: 24}},
 		}, &gltf.Accessor{
 			BufferView: gltf.Index(0), ByteOffset: 12, ComponentType: gltf.ComponentFloat, Type: gltf.AccessorVec3, Count: 2,
-		}}, [][3]float32{{1, 2, 3}, {0, 0, -1}}, false},
+		}}, [][3]float64{{1, 2, 3}, {0, 0, -1}}, false},
 		{"sparse", args{&gltf.Document{
 			Buffers: []*gltf.Buffer{{ByteLength: 284, Data: []byte{
 				0, 0, 8, 0, 7, 0, 0, 0, 1, 0, 8, 0, 1, 0, 9, 0, 8, 0, 1, 0, 2, 0, 9, 0,
@@ -170,7 +170,7 @@ func TestReadAccessor(t *testing.T) {
 				Indices: gltf.SparseIndices{BufferView: 1, ComponentType: gltf.ComponentUshort},
 				Values:  gltf.SparseValues{BufferView: 2},
 			},
-		}}, [][3]float32{
+		}}, [][3]float64{
 			{0, 0, 0}, {1, 0, 0}, {2, 0, 0}, {3, 0, 0}, {4, 0, 0}, {5, 0, 0}, {6, 0, 0},
 			{0, 1, 0}, {1, 2, 0}, {2, 1, 0}, {3, 3, 0}, {4, 1, 0}, {5, 4, 0}, {6, 1, 0}}, false},
 	}
@@ -201,7 +201,7 @@ func TestReadAccessorAllocs(t *testing.T) {
 		BufferView: gltf.Index(0), ComponentType: gltf.ComponentFloat, Type: gltf.AccessorVec3, Count: 4,
 	}
 
-	testFunc := func(t *testing.T, buf [][3]float32, want float32) {
+	testFunc := func(t *testing.T, buf [][3]float64, want float64) {
 		allocs := testing.AllocsPerRun(10, func() {
 			ReadAccessor(doc, acr, buf)
 		})
@@ -214,14 +214,14 @@ func TestReadAccessorAllocs(t *testing.T) {
 		testFunc(t, nil, 2)
 	})
 	t.Run("2", func(t *testing.T) {
-		buf := make([][3]float32, 2)
+		buf := make([][3]float64, 2)
 		testFunc(t, buf, 6)
 		testFunc(t, buf, 6)
 		testFunc(t, buf, 6)
 		testFunc(t, buf, 6)
 	})
 	t.Run("4", func(t *testing.T) {
-		buf := make([][3]float32, 4)
+		buf := make([][3]float64, 4)
 		testFunc(t, buf, 1)
 		testFunc(t, buf, 1)
 		testFunc(t, buf, 1)
@@ -286,20 +286,20 @@ func TestReadNormal(t *testing.T) {
 	type args struct {
 		data   []byte
 		acr    *gltf.Accessor
-		buffer [][3]float32
+		buffer [][3]float64
 	}
 	tests := []struct {
 		name    string
 		args    args
-		want    [][3]float32
+		want    [][3]float64
 		wantErr bool
 	}{
-		{"float32", args{[]byte{0, 0, 128, 63, 0, 0, 0, 64, 0, 0, 64, 64}, &gltf.Accessor{
+		{"float64", args{[]byte{0, 0, 128, 63, 0, 0, 0, 64, 0, 0, 64, 64}, &gltf.Accessor{
 			BufferView: gltf.Index(0), Count: 1, Type: gltf.AccessorVec3, ComponentType: gltf.ComponentFloat,
-		}, nil}, [][3]float32{{1, 2, 3}}, false},
-		{"float32-withbuffer", args{[]byte{0, 0, 128, 63, 0, 0, 0, 64, 0, 0, 64, 64}, &gltf.Accessor{
+		}, nil}, [][3]float64{{1, 2, 3}}, false},
+		{"float64-withbuffer", args{[]byte{0, 0, 128, 63, 0, 0, 0, 64, 0, 0, 64, 64}, &gltf.Accessor{
 			BufferView: gltf.Index(0), Count: 1, Type: gltf.AccessorVec3, ComponentType: gltf.ComponentFloat,
-		}, make([][3]float32, 1)}, [][3]float32{{1, 2, 3}}, false},
+		}, make([][3]float64, 1)}, [][3]float64{{1, 2, 3}}, false},
 		{"incorrect-type", args{[]byte{}, &gltf.Accessor{
 			BufferView: gltf.Index(0), Type: gltf.AccessorMat2, ComponentType: gltf.ComponentFloat,
 		}, nil}, nil, true},
@@ -333,20 +333,20 @@ func TestReadTangent(t *testing.T) {
 	type args struct {
 		data   []byte
 		acr    *gltf.Accessor
-		buffer [][4]float32
+		buffer [][4]float64
 	}
 	tests := []struct {
 		name    string
 		args    args
-		want    [][4]float32
+		want    [][4]float64
 		wantErr bool
 	}{
-		{"float32", args{[]byte{0, 0, 128, 63, 0, 0, 0, 64, 0, 0, 64, 64, 0, 0, 128, 64, 0, 0, 0, 0, 0, 0}, &gltf.Accessor{
+		{"float64", args{[]byte{0, 0, 128, 63, 0, 0, 0, 64, 0, 0, 64, 64, 0, 0, 128, 64, 0, 0, 0, 0, 0, 0}, &gltf.Accessor{
 			BufferView: gltf.Index(0), Count: 1, Type: gltf.AccessorVec4, ComponentType: gltf.ComponentFloat,
-		}, nil}, [][4]float32{{1, 2, 3, 4}}, false},
-		{"float32-withbuffer", args{[]byte{0, 0, 128, 63, 0, 0, 0, 64, 0, 0, 64, 64, 0, 0, 128, 64, 0, 0, 0, 0, 0, 0}, &gltf.Accessor{
+		}, nil}, [][4]float64{{1, 2, 3, 4}}, false},
+		{"float64-withbuffer", args{[]byte{0, 0, 128, 63, 0, 0, 0, 64, 0, 0, 64, 64, 0, 0, 128, 64, 0, 0, 0, 0, 0, 0}, &gltf.Accessor{
 			BufferView: gltf.Index(0), Count: 1, Type: gltf.AccessorVec4, ComponentType: gltf.ComponentFloat,
-		}, make([][4]float32, 1)}, [][4]float32{{1, 2, 3, 4}}, false},
+		}, make([][4]float64, 1)}, [][4]float64{{1, 2, 3, 4}}, false},
 		{"incorrect-type", args{[]byte{}, &gltf.Accessor{
 			BufferView: gltf.Index(0), Type: gltf.AccessorMat2, ComponentType: gltf.ComponentFloat,
 		}, nil}, nil, true},
@@ -380,26 +380,26 @@ func TestReadTextureCoord(t *testing.T) {
 	type args struct {
 		data   []byte
 		acr    *gltf.Accessor
-		buffer [][2]float32
+		buffer [][2]float64
 	}
 	tests := []struct {
 		name    string
 		args    args
-		want    [][2]float32
+		want    [][2]float64
 		wantErr bool
 	}{
 		{"uint8", args{[]byte{255, 0, 0, 0}, &gltf.Accessor{
 			BufferView: gltf.Index(0), Count: 1, Type: gltf.AccessorVec2, ComponentType: gltf.ComponentUbyte,
-		}, nil}, [][2]float32{{1, 0}}, false},
+		}, nil}, [][2]float64{{1, 0}}, false},
 		{"uint16", args{[]byte{255, 255, 0, 0}, &gltf.Accessor{
 			BufferView: gltf.Index(0), Count: 1, Type: gltf.AccessorVec2, ComponentType: gltf.ComponentUshort,
-		}, nil}, [][2]float32{{1, 0}}, false},
-		{"float32", args{[]byte{0, 0, 128, 63, 0, 0, 0, 64}, &gltf.Accessor{
+		}, nil}, [][2]float64{{1, 0}}, false},
+		{"float64", args{[]byte{0, 0, 128, 63, 0, 0, 0, 64}, &gltf.Accessor{
 			BufferView: gltf.Index(0), Count: 1, Type: gltf.AccessorVec2, ComponentType: gltf.ComponentFloat,
-		}, nil}, [][2]float32{{1, 2}}, false},
-		{"float32-withbuffer", args{[]byte{0, 0, 128, 63, 0, 0, 0, 64}, &gltf.Accessor{
+		}, nil}, [][2]float64{{1, 2}}, false},
+		{"float64-withbuffer", args{[]byte{0, 0, 128, 63, 0, 0, 0, 64}, &gltf.Accessor{
 			BufferView: gltf.Index(0), Count: 1, Type: gltf.AccessorVec2, ComponentType: gltf.ComponentFloat,
-		}, make([][2]float32, 1)}, [][2]float32{{1, 2}}, false},
+		}, make([][2]float64, 1)}, [][2]float64{{1, 2}}, false},
 		{"incorrect-type", args{[]byte{}, &gltf.Accessor{
 			BufferView: gltf.Index(0), Type: gltf.AccessorMat2, ComponentType: gltf.ComponentFloat,
 		}, nil}, nil, true},
@@ -433,26 +433,26 @@ func TestReadWeights(t *testing.T) {
 	type args struct {
 		data   []byte
 		acr    *gltf.Accessor
-		buffer [][4]float32
+		buffer [][4]float64
 	}
 	tests := []struct {
 		name    string
 		args    args
-		want    [][4]float32
+		want    [][4]float64
 		wantErr bool
 	}{
 		{"uint8", args{[]byte{255, 0, 255, 0}, &gltf.Accessor{
 			BufferView: gltf.Index(0), Count: 1, Type: gltf.AccessorVec4, ComponentType: gltf.ComponentUbyte,
-		}, nil}, [][4]float32{{1, 0, 1, 0}}, false},
+		}, nil}, [][4]float64{{1, 0, 1, 0}}, false},
 		{"uint16", args{[]byte{0, 0, 255, 255, 0, 0, 255, 255}, &gltf.Accessor{
 			BufferView: gltf.Index(0), Count: 1, Type: gltf.AccessorVec4, ComponentType: gltf.ComponentUshort,
-		}, nil}, [][4]float32{{0, 1, 0, 1}}, false},
-		{"float32", args{[]byte{0, 0, 128, 63, 0, 0, 0, 64, 0, 0, 64, 64, 0, 0, 128, 64}, &gltf.Accessor{
+		}, nil}, [][4]float64{{0, 1, 0, 1}}, false},
+		{"float64", args{[]byte{0, 0, 128, 63, 0, 0, 0, 64, 0, 0, 64, 64, 0, 0, 128, 64}, &gltf.Accessor{
 			BufferView: gltf.Index(0), Count: 1, Type: gltf.AccessorVec4, ComponentType: gltf.ComponentFloat,
-		}, nil}, [][4]float32{{1, 2, 3, 4}}, false},
-		{"float32-withbuffer", args{[]byte{0, 0, 128, 63, 0, 0, 0, 64, 0, 0, 64, 64, 0, 0, 128, 64}, &gltf.Accessor{
+		}, nil}, [][4]float64{{1, 2, 3, 4}}, false},
+		{"float64-withbuffer", args{[]byte{0, 0, 128, 63, 0, 0, 0, 64, 0, 0, 64, 64, 0, 0, 128, 64}, &gltf.Accessor{
 			BufferView: gltf.Index(0), Count: 1, Type: gltf.AccessorVec4, ComponentType: gltf.ComponentFloat,
-		}, make([][4]float32, 1)}, [][4]float32{{1, 2, 3, 4}}, false},
+		}, make([][4]float64, 1)}, [][4]float64{{1, 2, 3, 4}}, false},
 		{"incorrect-type", args{[]byte{}, &gltf.Accessor{
 			BufferView: gltf.Index(0), Type: gltf.AccessorMat2, ComponentType: gltf.ComponentFloat,
 		}, nil}, nil, true},
@@ -533,20 +533,20 @@ func TestReadPosition(t *testing.T) {
 	type args struct {
 		data   []byte
 		acr    *gltf.Accessor
-		buffer [][3]float32
+		buffer [][3]float64
 	}
 	tests := []struct {
 		name    string
 		args    args
-		want    [][3]float32
+		want    [][3]float64
 		wantErr bool
 	}{
-		{"float32", args{[]byte{0, 0, 128, 63, 0, 0, 0, 64, 0, 0, 64, 64}, &gltf.Accessor{
+		{"float64", args{[]byte{0, 0, 128, 63, 0, 0, 0, 64, 0, 0, 64, 64}, &gltf.Accessor{
 			BufferView: gltf.Index(0), Count: 1, Type: gltf.AccessorVec3, ComponentType: gltf.ComponentFloat,
-		}, nil}, [][3]float32{{1, 2, 3}}, false},
-		{"float32-withbuffer", args{[]byte{0, 0, 128, 63, 0, 0, 0, 64, 0, 0, 64, 64}, &gltf.Accessor{
+		}, nil}, [][3]float64{{1, 2, 3}}, false},
+		{"float64-withbuffer", args{[]byte{0, 0, 128, 63, 0, 0, 0, 64, 0, 0, 64, 64}, &gltf.Accessor{
 			BufferView: gltf.Index(0), Count: 1, Type: gltf.AccessorVec3, ComponentType: gltf.ComponentFloat,
-		}, make([][3]float32, 1)}, [][3]float32{{1, 2, 3}}, false},
+		}, make([][3]float64, 1)}, [][3]float64{{1, 2, 3}}, false},
 		{"incorrect-type", args{[]byte{}, &gltf.Accessor{
 			BufferView: gltf.Index(0), Type: gltf.AccessorMat2, ComponentType: gltf.ComponentFloat,
 		}, nil}, nil, true},
@@ -594,7 +594,7 @@ func TestReadColor(t *testing.T) {
 		{"[4]uint16", args{[]byte{0, 0, 115, 33, 200, 0, 255, 255}, &gltf.Accessor{
 			BufferView: gltf.Index(0), Count: 1, Type: gltf.AccessorVec4, ComponentType: gltf.ComponentUshort,
 		}, nil}, [][4]uint8{{0, 115, 200, 255}}, false},
-		{"[4]float32", args{[]byte{0, 0, 128, 63, 0, 0, 0, 64, 0, 0, 64, 64, 0, 0, 128, 64}, &gltf.Accessor{
+		{"[4]float64", args{[]byte{0, 0, 128, 63, 0, 0, 0, 64, 0, 0, 64, 64, 0, 0, 128, 64}, &gltf.Accessor{
 			BufferView: gltf.Index(0), Count: 1, Type: gltf.AccessorVec4, ComponentType: gltf.ComponentFloat,
 		}, nil}, [][4]uint8{{255, 89, 155, 252}}, false},
 		{"[3]uint8", args{[]byte{1, 2, 3, 0}, &gltf.Accessor{
@@ -603,7 +603,7 @@ func TestReadColor(t *testing.T) {
 		{"[3]uint16", args{[]byte{0, 0, 255, 0, 255, 0, 0, 0}, &gltf.Accessor{
 			BufferView: gltf.Index(0), Count: 1, Type: gltf.AccessorVec3, ComponentType: gltf.ComponentUshort,
 		}, nil}, [][4]uint8{{0, 255, 255, 255}}, false},
-		{"[3]float32", args{[]byte{0, 0, 128, 63, 0, 0, 0, 64, 0, 0, 64, 64}, &gltf.Accessor{
+		{"[3]float64", args{[]byte{0, 0, 128, 63, 0, 0, 0, 64, 0, 0, 64, 64}, &gltf.Accessor{
 			BufferView: gltf.Index(0), Count: 1, Type: gltf.AccessorVec3, ComponentType: gltf.ComponentFloat,
 		}, nil}, [][4]uint8{{255, 89, 155, 255}}, false},
 		{"incorrect-type", args{[]byte{}, &gltf.Accessor{
@@ -653,7 +653,7 @@ func TestReadColor64(t *testing.T) {
 		{"[4]uint16", args{[]byte{0, 0, 255, 255, 0, 0, 255, 255}, &gltf.Accessor{
 			BufferView: gltf.Index(0), Count: 1, Type: gltf.AccessorVec4, ComponentType: gltf.ComponentUshort,
 		}, nil}, [][4]uint16{{0, 65535, 0, 65535}}, false},
-		{"[4]float32", args{[]byte{0, 0, 128, 63, 0, 0, 0, 64, 0, 0, 64, 64, 0, 0, 128, 64}, &gltf.Accessor{
+		{"[4]float64", args{[]byte{0, 0, 128, 63, 0, 0, 0, 64, 0, 0, 64, 64, 0, 0, 128, 64}, &gltf.Accessor{
 			BufferView: gltf.Index(0), Count: 1, Type: gltf.AccessorVec4, ComponentType: gltf.ComponentFloat,
 		}, nil}, [][4]uint16{{65535, 23149, 40135, 65532}}, false},
 		{"[3]uint8", args{[]byte{0, 100, 200, 0}, &gltf.Accessor{
@@ -662,7 +662,7 @@ func TestReadColor64(t *testing.T) {
 		{"[3]uint16", args{[]byte{0, 0, 255, 0, 255, 0, 0, 0}, &gltf.Accessor{
 			BufferView: gltf.Index(0), Count: 1, Type: gltf.AccessorVec3, ComponentType: gltf.ComponentUshort,
 		}, nil}, [][4]uint16{{0, 255, 255, 65535}}, false},
-		{"[3]float32", args{[]byte{0, 0, 128, 63, 0, 0, 0, 64, 0, 0, 64, 64}, &gltf.Accessor{
+		{"[3]float64", args{[]byte{0, 0, 128, 63, 0, 0, 0, 64, 0, 0, 64, 64}, &gltf.Accessor{
 			BufferView: gltf.Index(0), Count: 1, Type: gltf.AccessorVec3, ComponentType: gltf.ComponentFloat,
 		}, nil}, [][4]uint16{{65535, 23149, 40135, 65535}}, false},
 		{"incorrect-type", args{[]byte{}, &gltf.Accessor{

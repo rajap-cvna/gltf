@@ -10,7 +10,7 @@ import (
 func ExampleWrite() {
 	// Define data
 	indices := []uint8{0, 1, 2, 3, 1, 0, 0, 2, 3, 1, 4, 2, 4, 3, 2, 4, 1, 3}
-	vertices := [][3]float32{{43, 43, 0}, {83, 43, 0}, {63, 63, 40}, {43, 83, 0}, {83, 83, 0}}
+	vertices := [][3]float64{{43, 43, 0}, {83, 43, 0}, {63, 63, 40}, {43, 83, 0}, {83, 83, 0}}
 
 	// Allocate buffer
 	sizeIndices := uint32(len(indices)) * gltf.SizeOfElement(gltf.ComponentUbyte, gltf.AccessorScalar)
@@ -29,7 +29,7 @@ func ExampleWrite() {
 func ExampleRead() {
 	// Allocate data
 	indices := make([]uint8, 18)
-	vertices := make([][3]float32, 5)
+	vertices := make([][3]float64, 5)
 
 	// Define buffer
 	b := []byte{0, 1, 2, 3, 1, 0, 0, 2, 3, 1, 4, 2, 4, 3, 2, 4, 1, 3, 0, 0, 44, 66, 0, 0, 44, 66, 0, 0, 0, 0, 0, 0, 166, 66, 0, 0, 44, 66, 0, 0, 0, 0, 0, 0, 124, 66, 0, 0, 124, 66, 0, 0, 32, 66, 0, 0, 44, 66, 0, 0, 166, 66, 0, 0, 0, 0, 0, 0, 166, 66, 0, 0, 166, 66, 0, 0, 0, 0}

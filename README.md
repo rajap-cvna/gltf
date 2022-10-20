@@ -118,7 +118,7 @@ doc.Meshes = []*gltf.Mesh{{
     Primitives: []*gltf.Primitive{{
         Indices: gltf.Index(modeler.WriteIndices(doc, []uint16{0, 1, 2})),
         Attributes: map[string]uint32{
-          gltf.POSITION: modeler.WritePosition(doc, [][3]float32{{0, 0, 0}, {0, 10, 0}, {0, 0, 10}}),
+          gltf.POSITION: modeler.WritePosition(doc, [][3]float64{{0, 0, 0}, {0, 10, 0}, {0, 0, 10}}),
           gltf.COLOR_0:  modeler.WriteColor(doc, [][3]uint8{{255, 0, 0}, {0, 255, 0}, {0, 0, 255}}),
         },
     }},
@@ -135,7 +135,7 @@ The data of the attributes that are stored in a single bufferView may be stored 
 ```go
 doc := gltf.NewDocument()
 attrs, _ := modeler.WriteAttributesInterleaved(doc, modeler.Attributes{
-  Position:       [][3]float32{{0, 0, 0}, {0, 10, 0}, {0, 0, 10}},
+  Position:       [][3]float64{{0, 0, 0}, {0, 10, 0}, {0, 0, 10}},
   Color:          [][3]uint8{{255, 0, 0}, {0, 255, 0}, {0, 0, 255}},
 })
 doc.Meshes = []*gltf.Mesh{{

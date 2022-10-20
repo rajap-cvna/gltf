@@ -134,65 +134,65 @@ func (shortComponent) PutMat4(b []byte, v [4][4]int16) {
 	Ushort.PutMat4(b, *(*[4][4]uint16)(unsafe.Pointer(&v)))
 }
 
-func (floatComponent) Scalar(b []byte) float32 {
+func (floatComponent) Scalar(b []byte) float64 {
 	v := Uint.Scalar(b)
-	return *(*float32)(unsafe.Pointer(&v))
+	return *(*float64)(unsafe.Pointer(&v))
 }
 
-func (floatComponent) PutScalar(b []byte, v float32) {
+func (floatComponent) PutScalar(b []byte, v float64) {
 	Uint.PutScalar(b, *(*uint32)(unsafe.Pointer(&v)))
 }
 
-func (floatComponent) Vec2(b []byte) [2]float32 {
+func (floatComponent) Vec2(b []byte) [2]float64 {
 	v := Uint.Vec2(b)
-	return *(*[2]float32)(unsafe.Pointer(&v))
+	return *(*[2]float64)(unsafe.Pointer(&v))
 }
 
-func (floatComponent) PutVec2(b []byte, v [2]float32) {
+func (floatComponent) PutVec2(b []byte, v [2]float64) {
 	Uint.PutVec2(b, *(*[2]uint32)(unsafe.Pointer(&v)))
 }
 
-func (floatComponent) Vec3(b []byte) [3]float32 {
+func (floatComponent) Vec3(b []byte) [3]float64 {
 	v := Uint.Vec3(b)
-	return *(*[3]float32)(unsafe.Pointer(&v))
+	return *(*[3]float64)(unsafe.Pointer(&v))
 }
 
-func (floatComponent) PutVec3(b []byte, v [3]float32) {
+func (floatComponent) PutVec3(b []byte, v [3]float64) {
 	Uint.PutVec3(b, *(*[3]uint32)(unsafe.Pointer(&v)))
 }
 
-func (floatComponent) Vec4(b []byte) [4]float32 {
+func (floatComponent) Vec4(b []byte) [4]float64 {
 	v := Uint.Vec4(b)
-	return *(*[4]float32)(unsafe.Pointer(&v))
+	return *(*[4]float64)(unsafe.Pointer(&v))
 }
 
-func (floatComponent) PutVec4(b []byte, v [4]float32) {
+func (floatComponent) PutVec4(b []byte, v [4]float64) {
 	Uint.PutVec4(b, *(*[4]uint32)(unsafe.Pointer(&v)))
 }
 
-func (floatComponent) Mat2(b []byte) [2][2]float32 {
+func (floatComponent) Mat2(b []byte) [2][2]float64 {
 	v := Uint.Mat2(b)
-	return *(*[2][2]float32)(unsafe.Pointer(&v))
+	return *(*[2][2]float64)(unsafe.Pointer(&v))
 }
 
-func (floatComponent) PutMat2(b []byte, v [2][2]float32) {
+func (floatComponent) PutMat2(b []byte, v [2][2]float64) {
 	Uint.PutMat2(b, *(*[2][2]uint32)(unsafe.Pointer(&v)))
 }
 
-func (floatComponent) Mat3(b []byte) [3][3]float32 {
+func (floatComponent) Mat3(b []byte) [3][3]float64 {
 	v := Uint.Mat3(b)
-	return *(*[3][3]float32)(unsafe.Pointer(&v))
+	return *(*[3][3]float64)(unsafe.Pointer(&v))
 }
 
-func (floatComponent) PutMat3(b []byte, v [3][3]float32) {
+func (floatComponent) PutMat3(b []byte, v [3][3]float64) {
 	Uint.PutMat3(b, *(*[3][3]uint32)(unsafe.Pointer(&v)))
 }
 
-func (floatComponent) Mat4(b []byte) [4][4]float32 {
+func (floatComponent) Mat4(b []byte) [4][4]float64 {
 	v := Uint.Mat4(b)
-	return *(*[4][4]float32)(unsafe.Pointer(&v))
+	return *(*[4][4]float64)(unsafe.Pointer(&v))
 }
 
-func (floatComponent) PutMat4(b []byte, v [4][4]float32) {
+func (floatComponent) PutMat4(b []byte, v [4][4]float64) {
 	Uint.PutMat4(b, *(*[4][4]uint32)(unsafe.Pointer(&v)))
 }

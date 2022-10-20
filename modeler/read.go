@@ -140,7 +140,7 @@ func ReadIndices(doc *gltf.Document, acr *gltf.Accessor, buffer []uint32) ([]uin
 // ReadNormal returns the data referenced by acr.
 //
 // See ReadAccessor for more info.
-func ReadNormal(doc *gltf.Document, acr *gltf.Accessor, buffer [][3]float32) ([][3]float32, error) {
+func ReadNormal(doc *gltf.Document, acr *gltf.Accessor, buffer [][3]float64) ([][3]float64, error) {
 	if acr.ComponentType != gltf.ComponentFloat {
 		return nil, errComponentType(acr.ComponentType)
 	}
@@ -151,13 +151,13 @@ func ReadNormal(doc *gltf.Document, acr *gltf.Accessor, buffer [][3]float32) ([]
 	if err != nil {
 		return nil, err
 	}
-	return data.([][3]float32), nil
+	return data.([][3]float64), nil
 }
 
 // ReadTangent returns the data referenced by acr.
 //
 // See ReadAccessor for more info.
-func ReadTangent(doc *gltf.Document, acr *gltf.Accessor, buffer [][4]float32) ([][4]float32, error) {
+func ReadTangent(doc *gltf.Document, acr *gltf.Accessor, buffer [][4]float64) ([][4]float64, error) {
 	if acr.ComponentType != gltf.ComponentFloat {
 		return nil, errComponentType(acr.ComponentType)
 	}
@@ -168,7 +168,7 @@ func ReadTangent(doc *gltf.Document, acr *gltf.Accessor, buffer [][4]float32) ([
 	if err != nil {
 		return nil, err
 	}
-	return data.([][4]float32), nil
+	return data.([][4]float64), nil
 }
 
 // ReadTextureCoord returns the data referenced by acr.
@@ -176,7 +176,7 @@ func ReadTangent(doc *gltf.Document, acr *gltf.Accessor, buffer [][4]float32) ([
 // will be converted and denormalized appropriately.
 //
 // See ReadAccessor for more info.
-func ReadTextureCoord(doc *gltf.Document, acr *gltf.Accessor, buffer [][2]float32) ([][2]float32, error) {
+func ReadTextureCoord(doc *gltf.Document, acr *gltf.Accessor, buffer [][2]float64) ([][2]float64, error) {
 	switch acr.ComponentType {
 	case gltf.ComponentUbyte, gltf.ComponentUshort, gltf.ComponentFloat:
 	default:
@@ -190,25 +190,25 @@ func ReadTextureCoord(doc *gltf.Document, acr *gltf.Accessor, buffer [][2]float3
 		return nil, err
 	}
 	if uint32(len(buffer)) < acr.Count {
-		buffer = append(buffer, make([][2]float32, acr.Count-uint32(len(buffer)))...)
+		buffer = append(buffer, make([][2]float64, acr.Count-uint32(len(buffer)))...)
 	} else {
 		buffer = buffer[:acr.Count]
 	}
 	switch acr.ComponentType {
 	case gltf.ComponentUbyte:
 		for i, e := range data.([][2]uint8) {
-			buffer[i] = [2]float32{
+			buffer[i] = [2]float64{
 				gltf.DenormalizeUbyte(e[0]), gltf.DenormalizeUbyte(e[1]),
 			}
 		}
 	case gltf.ComponentUshort:
 		for i, e := range data.([][2]uint16) {
-			buffer[i] = [2]float32{
+			buffer[i] = [2]float64{
 				gltf.DenormalizeUshort(e[0]), gltf.DenormalizeUshort(e[1]),
 			}
 		}
 	case gltf.ComponentFloat:
-		buffer = data.([][2]float32)
+		buffer = data.([][2]float64)
 	}
 	return buffer, nil
 }
@@ -218,7 +218,7 @@ func ReadTextureCoord(doc *gltf.Document, acr *gltf.Accessor, buffer [][2]float3
 // will be converted and denormalized appropriately.
 //
 // See ReadAccessor for more info.
-func ReadWeights(doc *gltf.Document, acr *gltf.Accessor, buffer [][4]float32) ([][4]float32, error) {
+func ReadWeights(doc *gltf.Document, acr *gltf.Accessor, buffer [][4]float64) ([][4]float64, error) {
 	switch acr.ComponentType {
 	case gltf.ComponentUbyte, gltf.ComponentUshort, gltf.ComponentFloat:
 	default:
@@ -232,27 +232,27 @@ func ReadWeights(doc *gltf.Document, acr *gltf.Accessor, buffer [][4]float32) ([
 		return nil, err
 	}
 	if uint32(len(buffer)) < acr.Count {
-		buffer = append(buffer, make([][4]float32, acr.Count-uint32(len(buffer)))...)
+		buffer = append(buffer, make([][4]float64, acr.Count-uint32(len(buffer)))...)
 	} else {
 		buffer = buffer[:acr.Count]
 	}
 	switch acr.ComponentType {
 	case gltf.ComponentUbyte:
 		for i, e := range data.([][4]uint8) {
-			buffer[i] = [4]float32{
+			buffer[i] = [4]float64{
 				gltf.DenormalizeUbyte(e[0]), gltf.DenormalizeUbyte(e[1]),
 				gltf.DenormalizeUbyte(e[2]), gltf.DenormalizeUbyte(e[3]),
 			}
 		}
 	case gltf.ComponentUshort:
 		for i, e := range data.([][4]uint16) {
-			buffer[i] = [4]float32{
+			buffer[i] = [4]float64{
 				gltf.DenormalizeUshort(e[0]), gltf.DenormalizeUshort(e[1]),
 				gltf.DenormalizeUshort(e[2]), gltf.DenormalizeUshort(e[3]),
 			}
 		}
 	case gltf.ComponentFloat:
-		buffer = data.([][4]float32)
+		buffer = data.([][4]float64)
 	}
 	return buffer, nil
 }
@@ -297,7 +297,7 @@ func ReadJoints(doc *gltf.Document, acr *gltf.Accessor, buffer [][4]uint16) ([][
 // ReadPosition returns the data referenced by acr.
 //
 // See ReadAccessor for more info.
-func ReadPosition(doc *gltf.Document, acr *gltf.Accessor, buffer [][3]float32) ([][3]float32, error) {
+func ReadPosition(doc *gltf.Document, acr *gltf.Accessor, buffer [][3]float64) ([][3]float64, error) {
 	if acr.ComponentType != gltf.ComponentFloat {
 		return nil, errComponentType(acr.ComponentType)
 	}
@@ -308,7 +308,7 @@ func ReadPosition(doc *gltf.Document, acr *gltf.Accessor, buffer [][3]float32) (
 	if err != nil {
 		return nil, err
 	}
-	return data.([][3]float32), nil
+	return data.([][3]float64), nil
 }
 
 // ReadColor returns the data referenced by acr.
@@ -357,12 +357,12 @@ func ReadColor(doc *gltf.Document, acr *gltf.Accessor, buffer [][4]uint8) ([][4]
 		}
 	case gltf.ComponentFloat:
 		if acr.Type == gltf.AccessorVec3 {
-			for i, e := range data.([][3]float32) {
+			for i, e := range data.([][3]float64) {
 				tmp := gltf.NormalizeRGB(e)
 				buffer[i] = [4]uint8{tmp[0], tmp[1], tmp[2], 255}
 			}
 		} else {
-			for i, e := range data.([][4]float32) {
+			for i, e := range data.([][4]float64) {
 				buffer[i] = gltf.NormalizeRGBA(e)
 			}
 		}
@@ -425,12 +425,12 @@ func ReadColor64(doc *gltf.Document, acr *gltf.Accessor, buffer [][4]uint16) ([]
 		}
 	case gltf.ComponentFloat:
 		if acr.Type == gltf.AccessorVec3 {
-			for i, e := range data.([][3]float32) {
+			for i, e := range data.([][3]float64) {
 				tmp := gltf.NormalizeRGB64(e)
 				buffer[i] = [4]uint16{tmp[0], tmp[1], tmp[2], 65535}
 			}
 		} else {
-			for i, e := range data.([][4]float32) {
+			for i, e := range data.([][4]float64) {
 				buffer[i] = gltf.NormalizeRGBA64(e)
 			}
 		}

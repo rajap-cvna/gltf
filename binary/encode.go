@@ -155,31 +155,31 @@ func Read(b []byte, byteStride uint32, data interface{}) error {
 		for i := range data {
 			data[i] = Ushort.Mat4(b[e*i:])
 		}
-	case []float32:
+	case []float64:
 		for i := range data {
 			data[i] = Float.Scalar(b[e*i:])
 		}
-	case [][2]float32:
+	case [][2]float64:
 		for i := range data {
 			data[i] = Float.Vec2(b[e*i:])
 		}
-	case [][3]float32:
+	case [][3]float64:
 		for i := range data {
 			data[i] = Float.Vec3(b[e*i:])
 		}
-	case [][4]float32:
+	case [][4]float64:
 		for i := range data {
 			data[i] = Float.Vec4(b[e*i:])
 		}
-	case [][2][2]float32:
+	case [][2][2]float64:
 		for i := range data {
 			data[i] = Float.Mat2(b[e*i:])
 		}
-	case [][3][3]float32:
+	case [][3][3]float64:
 		for i := range data {
 			data[i] = Float.Mat3(b[e*i:])
 		}
-	case [][4][4]float32:
+	case [][4][4]float64:
 		for i := range data {
 			data[i] = Float.Mat4(b[e*i:])
 		}
@@ -354,31 +354,31 @@ func Write(b []byte, stride uint32, data interface{}) error {
 		for i := range data {
 			Ushort.PutMat4(b[e*i:], data[i])
 		}
-	case []float32:
+	case []float64:
 		for i := range data {
 			Float.PutScalar(b[e*i:], data[i])
 		}
-	case [][2]float32:
+	case [][2]float64:
 		for i := range data {
 			Float.PutVec2(b[e*i:], data[i])
 		}
-	case [][3]float32:
+	case [][3]float64:
 		for i := range data {
 			Float.PutVec3(b[e*i:], data[i])
 		}
-	case [][4]float32:
+	case [][4]float64:
 		for i := range data {
 			Float.PutVec4(b[e*i:], data[i])
 		}
-	case [][2][2]float32:
+	case [][2][2]float64:
 		for i := range data {
 			Float.PutMat2(b[e*i:], data[i])
 		}
-	case [][3][3]float32:
+	case [][3][3]float64:
 		for i := range data {
 			Float.PutMat3(b[e*i:], data[i])
 		}
-	case [][4][4]float32:
+	case [][4][4]float64:
 		for i := range data {
 			Float.PutMat4(b[e*i:], data[i])
 		}

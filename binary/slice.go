@@ -31,7 +31,7 @@ func MakeSliceBuffer(c gltf.ComponentType, t gltf.AccessorType, count uint32, bu
 
 // MakeSlice returns the slice type associated with c and t and with the given element count.
 // For example, if c is gltf.ComponentFloat and t is gltf.AccessorVec3
-// then MakeSlice(c, t, 5) is equivalent to make([][3]float32, 5).
+// then MakeSlice(c, t, 5) is equivalent to make([][3]float64, 5).
 func MakeSlice(c gltf.ComponentType, t gltf.AccessorType, count uint32) interface{} {
 	var tp reflect.Type
 	switch c {
@@ -46,7 +46,7 @@ func MakeSlice(c gltf.ComponentType, t gltf.AccessorType, count uint32) interfac
 	case gltf.ComponentUint:
 		tp = reflect.TypeOf((*uint32)(nil))
 	case gltf.ComponentFloat:
-		tp = reflect.TypeOf((*float32)(nil))
+		tp = reflect.TypeOf((*float64)(nil))
 	}
 	tp = tp.Elem()
 	switch t {
@@ -145,19 +145,19 @@ func Type(data interface{}) (c gltf.ComponentType, t gltf.AccessorType, count ui
 		c, t = gltf.ComponentUint, gltf.AccessorMat3
 	case [][4][4]uint32:
 		c, t = gltf.ComponentUint, gltf.AccessorMat4
-	case []float32:
+	case []float64:
 		c, t = gltf.ComponentFloat, gltf.AccessorScalar
-	case [][2]float32:
+	case [][2]float64:
 		c, t = gltf.ComponentFloat, gltf.AccessorVec2
-	case [][3]float32:
+	case [][3]float64:
 		c, t = gltf.ComponentFloat, gltf.AccessorVec3
-	case [][4]float32:
+	case [][4]float64:
 		c, t = gltf.ComponentFloat, gltf.AccessorVec4
-	case [][2][2]float32:
+	case [][2][2]float64:
 		c, t = gltf.ComponentFloat, gltf.AccessorMat2
-	case [][3][3]float32:
+	case [][3][3]float64:
 		c, t = gltf.ComponentFloat, gltf.AccessorMat3
-	case [][4][4]float32:
+	case [][4][4]float64:
 		c, t = gltf.ComponentFloat, gltf.AccessorMat4
 	default:
 		panic(fmt.Sprintf("go3mf: binary.Type expecting a glTF supported type but got %s", v.Kind()))
