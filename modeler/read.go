@@ -6,8 +6,8 @@ import (
 	"io"
 	"reflect"
 
-	"github.com/qmuntal/gltf"
-	"github.com/qmuntal/gltf/binary"
+	"github.com/rajap-cvna/gltf"
+	"github.com/rajap-cvna/gltf/binary"
 )
 
 // ReadAccessor returns the data references by acr

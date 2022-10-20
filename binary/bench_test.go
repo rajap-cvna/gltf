@@ -5,7 +5,7 @@ import (
 	"encoding/binary"
 	"testing"
 
-	"github.com/qmuntal/gltf"
+	"github.com/rajap-cvna/gltf"
 )
 
 func BenchmarkNative(b *testing.B) {

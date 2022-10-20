@@ -7,7 +7,7 @@ import (
 	"testing"
 
 	"github.com/go-test/deep"
-	"github.com/qmuntal/gltf"
+	"github.com/rajap-cvna/gltf"
 )
 
 func TestAlignment(t *testing.T) {

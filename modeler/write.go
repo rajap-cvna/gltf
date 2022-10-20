@@ -12,8 +12,8 @@ import (
 	"math"
 	"reflect"
 
-	"github.com/qmuntal/gltf"
-	"github.com/qmuntal/gltf/binary"
+	"github.com/rajap-cvna/gltf"
+	"github.com/rajap-cvna/gltf/binary"
 )
 
 // WriteIndices adds a new INDICES accessor to doc

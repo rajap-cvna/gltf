@@ -4,7 +4,7 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/qmuntal/gltf"
+	"github.com/rajap-cvna/gltf"
 )
 
 func TestReadColor64_ReuseBuffer(t *testing.T) {

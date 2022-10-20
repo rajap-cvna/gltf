@@ -4,7 +4,7 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/qmuntal/gltf"
+	"github.com/rajap-cvna/gltf"
 )
 
 func TestTextureTranform_ScaleOrDefault(t *testing.T) {

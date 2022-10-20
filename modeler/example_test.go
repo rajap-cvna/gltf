@@ -4,8 +4,8 @@ import (
 	"bytes"
 	"io/ioutil"
 
-	"github.com/qmuntal/gltf"
-	"github.com/qmuntal/gltf/modeler"
+	"github.com/rajap-cvna/gltf"
+	"github.com/rajap-cvna/gltf/modeler"
 )
 
 func Example() {

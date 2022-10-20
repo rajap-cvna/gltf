@@ -6,7 +6,7 @@ import (
 	"image/color"
 	"io"
 
-	"github.com/qmuntal/gltf"
+	"github.com/rajap-cvna/gltf"
 )
 
 // Read reads structured binary data from b into data.
